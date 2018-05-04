@@ -45,6 +45,7 @@ public class SeckillServiceImpl implements SeckillService {
 		if(seckill==null) {
 			return new Exposer(false, seckillId);
 		}
+		//查询到商品秒杀信息
 		long nowTime = new Date().getTime();
 		long startTime=seckill.getStartTime().getTime();
 		long endTime=seckill.getEndTime().getTime();
@@ -70,6 +71,7 @@ public class SeckillServiceImpl implements SeckillService {
 			throw new SeckillException("seckill data rewrite");
 		}
 		try {
+			//减库存,判断库存和秒杀开启时间-关闭时间
 			int updateCount = seckillDao.reduceNumber(seckillId, new Date());
 			if(updateCount<=0) {
 				throw new SeckillCloseException("seckill is closed");
